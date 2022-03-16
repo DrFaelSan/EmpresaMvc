@@ -1,0 +1,94 @@
+﻿@using EmpresaMvc.ApplicationCore.Entitys
+@model List<EmpresaMvc.ApplicationCore.Entitys.Company>
+
+@{ 
+    ViewData["Title"] = "Empresas - Visualizar"; 
+}
+
+
+
+    <div class="row align-items-center justify-content-center vh-100">
+        <div class="card col-6">
+            <div class="card-header">
+                <h1 class="display-4">Visualização das empresas</h1>
+            </div>
+            <div class="card-body ">
+                <table class="table table table-hover table-striped table-responsive ">
+                    <!-- Ceçalho da tabela -->
+                    <tr>
+                    <th>
+                        Nome
+                    </th>
+                    <th>
+                        Site
+                    </th>
+                    <th>
+                        Quantidade Funcionarios
+                    </th>
+                    <th>
+                        Opções
+                    </th>
+                    </tr>
+                    <!-- Linhas da tabela -->
+                    @foreach (var item in Model) {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Site)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NumberEmployees)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Atualizar","Update", "Company", new { id=item.Id} ,new { @class = "btn btn-outline-secondary ml-1" }) 
+                                @Html.ActionLink("Apagar","Delete", "Company", new { id=item.Id }, new { @class = "btn btn-outline-secondary ml-1" })
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <div class="text-center justify-content-center">
+                    <button type="button" class="btn btn-outline-dark" onclick="location.href='@Url.Action("Index","Company")'" >Voltar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="row align-items-center justify-content-center vh-100">
+    <div class="d-flex justify-content-around">
+    <table class="table table table-hover table-dark table-striped table-responsive">
+        <tr>
+            <th>
+                Nome
+            </th>
+            <th>
+                Site
+            </th>
+            <th>
+                Quantidade Funcionários
+            </th>
+        </tr>
+            
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Site)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberEmployees)
+            </td>
+            @*<td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.AutoId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.AutoId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.AutoId })
+            </td>*@
+        </tr>
+    }
+            
+    </table>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿@model EmpresaMvc.ApplicationCore.Entitys.Company;
+
+@{
+    ViewData["Title"] = "Empresas - Atualizar";
+}
+
+<div class="row align-items-center justify-content-center vh-100">
+    <div class="card col-6">
+        <div class="card-header">
+            <h1 class="display-4">Atualizalção de empresa</h1>
+        </div>
+        <div class="card-body">
+            @if (Model != null)
+            {
+                <form class="rounded-3 " asp-action="Update">    
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="name" placeholder="Leaser Fast" required  asp-for="Name">
+                        <label  asp-for="Name">Nome da Empresa</label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="site" placeholder="http://grupoonepar.com.br/" asp-for="Site">
+                        <label asp-for="Site">Site da Empresa</label>
+                        <span asp-validation-for="Site" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <div class="col-sm-6 col-sm-offset-4">
+                            <div class="form-floating input-group mb-3">
+                                <input type="number" id="qty_input" class="form-control form-control-sm" asp-for="NumberEmployees" min="1">
+                                <label asp-for="NumberEmployees" >Quantidade de funcionários da Empresa</label>
+                                 <span asp-validation-for="NumberEmployees" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+               
+                    <div class="text-center justify-content-center">
+                        <button type="submit" class="btn btn-outline-dark" value="Save">Atualizar</button>
+                        <button type="button" class="btn btn-outline-dark" onclick="location.href='@Url.Action("Index","Company")'" >Voltar</button>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="alert alert-warning d-flex align-items-center" role="alert">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill" /></svg>
+                        <div>
+                            Nenhuma empresa foi selecionada para atualização !
+                        </div>
+                </div>
+                <div class="text-center justify-content-center">
+                    <button type="button" class="btn btn-outline-dark" onclick="location.href='@Url.Action("Index","Company")'" >Voltar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,13 +1,15 @@
+using EmpresaMvc.ApplicationCore.Interfaces.Repositorys;
+using EmpresaMvc.ApplicationCore.Interfaces.Services;
+using EmpresaMvc.ApplicationCore.Services;
+using EmpresaMvc.Infrastructure.Data;
+using EmpresaMvc.Infrastructure.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using NToastNotify;
 
 namespace EmpresaMvc.UI.Web
 {
@@ -23,12 +25,31 @@ namespace EmpresaMvc.UI.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddDbContext<CompanyContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging(), ServiceLifetime.Scoped);
+
             services.AddControllersWithViews();
+
+            //Business rules
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<ICompanyServices, CompanyServices>();
+
+            //https://github.com/nabinked/ntoastnotify/ - toast
+            services.AddMvc().AddNToastNotifyToastr(new ToastrOptions()
+            {
+                ProgressBar = true,
+                PositionClass = ToastPositions.TopLeft
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
+            app.UseNToastNotify();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -50,7 +71,7 @@ namespace EmpresaMvc.UI.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Company}/{action=Index}");
             });
         }
     }
